@@ -1,0 +1,118 @@
+users =>
+
+****login ths site:
+DONE*******************************************
+post users/token
+if q => SELECT * FROM users WHERE user_name=`${req.body.user_name}` == true
+    if => q.password == `${req.body.password}` ==> login successfully
+
+            check the role of the user:
+                if q.role == 1 ==> admin 
+                else ==> user
+
+    else err "user_name or password is not correct, try again"
+else err "user_name or password is not correct, try again"
+**************************************************
+frontend --> saving the token into the localStorage
+
+loading the page ==> checking in the localStorage for the token
+existing + expired of the token.
+
+if there is a vt token enter the site with the role func
+if not display the login page
+**************************************************
+
+DONE*******************************************
+
+****registration to site:
+
+post users/
+
+req.body: 
+{
+first_name:
+last_name:
+user_name:
+password:
+}
+
+check if the user exist in the users table:
+if q => SELECT * FROM users WHERE user_name=`${req.body.user_name}` == true
+err => "tha user is all ready exist, try something else"
+**************************************************
+validation of the password if i can get it to be in formal format
+**************************************************
+
+****user func in site:
+
+**search vacation
+
+get vacations/by?form felids as params
+
+DONE***************************************
+** button follow / unfollow on each vacation:
+
+*follow=> push follow/:vacation_id
+q = INSERT INTO followers (user_id(saved in the token/header), vacation_id(req.params))
+values ((saved in the token/header),(req.params))
+
+*unfollow=> delete follow/:vacation_id
+q = DELETE FROM followers WHERE vacation_id=req.params
+***********************************************
+DONE*******************************************
+*showing the "follow" before the unfollow for each user:
+
+qq = SELECT vacations.destination, COUNT(followers.user_id) AS numberOfFollowers FROM vacations 
+LEFT JOIN followers ON vacations.id= followers.vacation_id
+GROUP BY destination
+order by numberOfFollowers desc
+************************************************
+DONE*******************************************
+** get the number of followers for each vacation:
+====>needs to change every onChange on the button ====>"follow/unfollow" ==> in function
+q = SELECT COUNT(user_id) FROM followers WHERE vacation_id=req.params;
+************************************************
+
+
+****admin func in site:
+
+**add vacation
+onClick on Add button ==> open form to fill in: with verification that the felids are good
+post vacations/
+
+q=insert into vacations (destination, description, image_link, from_date, to_date, price)
+values()
+
+req.body: 
+{
+destination:
+description:
+image_link:
+from_date:
+to_date:
+price:
+}
+
+**delete vacation
+onClick on delete ==>
+delete vacations/
+
+q= DELETE FROM vacations WHERE id=req.params
+
+**edit vacations
+onClick on edit ==> open form with all the felids full with the data of the vacation clicked on
+get vacations/:id
+
+q= select * from vacations where id=req.params
+
+edit vacation=> onClick on save  
+put vacations/:id
+*** לשים לב שצריך לבדוק פורמט הכנסת תאריכים
+qq= UPDATE vacations
+SET destination = "", description = "", image_link="", from_date="", to_date="", price=""
+WHERE where id=req.params
+
+****graph of followers of all vacations:
+q= SELECT vacation_id, COUNT(user_id) as numberOfFollowers FROM followers
+group by vacation_id
+
