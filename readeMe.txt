@@ -1,0 +1,8 @@
+users:
+admin:
+        username: admin
+        password: q123
+
+users:
+        usernames: benben, dordor,gaygay, yanyan
+        password: q123        
